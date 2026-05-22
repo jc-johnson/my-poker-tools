@@ -1,0 +1,40 @@
+from itertools import combinations
+
+ranks = "23456789TJQKA"
+suits = "shdc"
+
+deck = [r + s for r in ranks for s in suits]
+
+blockers = ["As", "Kd"]
+
+available_cards = [c for c in deck if c not in blockers]
+
+def hand_class(card1, card2):
+    r1, s1 = card1[0], card1[1]
+    r2, s2 = card2[0], card2[1]
+
+    # Pair
+    if r1 == r2:
+        return r1 + r2
+
+    # Order high card first
+    ordered = sorted([r1, r2], key=lambda r: ranks.index(r), reverse=True)
+    suited = "s" if s1 == s2 else "o"
+
+    return "".join(ordered) + suited
+
+hands_by_class = {}
+
+for c1, c2 in combinations(available_cards, 2):
+    hc = hand_class(c1, c2)
+
+    if hc not in hands_by_class:
+        hands_by_class[hc] = []
+
+    hands_by_class[hc].append((c1, c2))
+
+# Print results
+for hc in sorted(hands_by_class):
+    print(f"{hc}: {len(hands_by_class[hc])} combos")
+    print(hands_by_class[hc])
+    print()
