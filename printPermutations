@@ -1,0 +1,28 @@
+# prints all permutations of card combinations given two cards given two blocker cards for poker
+
+from itertools import combinations
+
+# ----- Card setup -----
+
+ranks = "23456789TJQKA"
+suits = "shdc"  # spades, hearts, diamonds, clubs
+
+# Build full deck
+deck = [r + s for r in ranks for s in suits]
+
+# ----- Blocker cards -----
+# Example blockers:
+blockers = ["As", "Kd"]
+
+# Remove blockers from deck
+available_cards = [c for c in deck if c not in blockers]
+
+# ----- Generate all 2-card combinations -----
+
+all_hands = list(combinations(available_cards, 2))
+
+print(f"Total combinations after blockers: {len(all_hands)}\n")
+
+# Print all combos
+for hand in all_hands:
+    print(hand)
